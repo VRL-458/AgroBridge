@@ -24,26 +24,7 @@ class User(UserMixin, db.Model):
 
 
 
-with app.app_context():
-    db.create_all()  # Asegúrate de que las tablas existan
 
-    # Crea usuarios de ejemplo
-    users = [
-        User(username='user1', password=generate_password_hash('password1'), latitude=-16.5000, longitude=-68.1500, details='Productor de café'),
-        User(username='user2', password=generate_password_hash('password2'), latitude=-16.6000, longitude=-68.2000, details='Productor de maíz'),
-        User(username='user3', password=generate_password_hash('password3'), latitude=-16.7000, longitude=-68.3000, details='Productor de arroz'),
-        User(username='user4', password=generate_password_hash('password4'), latitude=-16.8000, longitude=-68.4000, details='Productor de quinua'),
-        User(username='user5', password=generate_password_hash('password5'), latitude=-16.9000, longitude=-68.5000,  details='Productor de frutas'),
-    ]
-
-    # Agrega los usuarios a la base de datos
-    for user in users:
-        db.session.add(user)
-
-    # Guarda los cambios
-    db.session.commit()
-    print("Usuarios creados exitosamente.")
-# Configuración de Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
