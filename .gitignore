@@ -1,0 +1,25 @@
+# Ignorar el entorno virtual
+.venv/
+venv/
+
+# Ignorar archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignorar archivos de configuración de entorno
+.env
+
+# Ignorar configuraciones de IDE/editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignorar bases de datos locales
+*.sqlite3
+
+# Ignorar otros archivos innecesarios
+.DS_Store
+*.log
+*.bak

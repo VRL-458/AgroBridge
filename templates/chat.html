@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script> <!-- Cargar SocketIO -->
+    <style>
+        /* Estilos básicos para el chat */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #message-input {
+            width: 80%;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat</h1>
+        <div id="messages"></div>
+        <input type="text" id="message-input" placeholder="Escribe tu mensaje aquí...">
+        <button id="send-button">Enviar</button>
+    </div>
+
+    <script>
+        const socket = io();  // Conectar a SocketIO
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+        const messagesContainer = document.getElementById('messages');
+
+        sendButton.addEventListener('click', function() {
+            const message = messageInput.value;
+            if (message.trim() === '') return; // No enviar mensajes vacíos
+
+            // Emitir el mensaje al servidor
+            socket.emit('send_message', { message: message });
+
+            // Limpiar el campo de entrada
+            messageInput.value = '';
+        });
+
+        // Escuchar mensajes recibidos
+        socket.on('receive_message', function(data) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = data.message;
+            messagesContainer.appendChild(messageElement);
+
+            // Desplazarse hacia abajo
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    </script>
+</body>
+</html>
