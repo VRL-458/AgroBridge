@@ -23,7 +23,9 @@ class User(UserMixin, db.Model):
     details = db.Column(db.String(500), nullable=True)
 
 
-
+@app.route('/ayuda')
+def ayuda():
+    return render_template('ayuda.html')
 
 @login_manager.user_loader
 def load_user(user_id):
